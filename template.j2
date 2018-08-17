@@ -1,11 +1,11 @@
 {
     "general": {
-        "name": "metronnopass",
-        "credentialName": "sball-se"
+        "name": "HCP",
+        "credentialName": "{{ credentialName }}"
     },
     "placement": {
-        "availabilityZone": "us-west-2a",
-        "region": "us-west-2"
+        "availabilityZone": "{{ aws.zone|default('us-west-2a') }}",
+        "region": "{{ aws.region|default('us-west-2') }}"
     },
     "parameters": {},
     "customDomain": {
@@ -28,7 +28,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -54,7 +54,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -81,7 +81,7 @@
                     "spotPrice": "0.239"
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.xlarge"
+                "instanceType": "m5.xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -107,7 +107,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -149,7 +149,7 @@
                     "spotPrice": "0.239"
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.xlarge"
+                "instanceType": "m5.xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -175,7 +175,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.xlarge"
+                "instanceType": "m5.xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -202,7 +202,7 @@
                     "spotPrice": "0.239"
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.xlarge"
+                "instanceType": "m5.xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -229,7 +229,7 @@
                     "spotPrice": "0.479"
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -256,7 +256,7 @@
                     "spotPrice": "0.239"
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.xlarge"
+                "instanceType": "m5.xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -282,7 +282,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -308,7 +308,7 @@
                     "encrypted": false
                 },
                 "volumeType": "standard",
-                "instanceType": "m4.2xlarge"
+                "instanceType": "m5.2xlarge"
             },
             "securityGroup": {
                 "securityRules": [
@@ -339,14 +339,14 @@
         "rdsConfigNames": [],
         "ambari": {
             "blueprintName": "HCP",
-            "enableSecurity": false,
+            "enableSecurity": true,
             "userName": "admin",
-            "password": "sqUNfQVw8596jRJ8rn",
+            "password": "{{ ambari.adminPassword }}",
             "kerberos": {
                 "admin": "admin",
                 "tcpAllowed": false,
-                "masterKey": "sqUNfQVw8596jRJ8rn",
-                "password": "sqUNfQVw8596jRJ8rn"
+                "masterKey": "{{ kerberos.key }}",
+                "password": "{{ kerberos.password }}"
             },
             "ambariStackDetails": {
                 "stack": "HDP-2.6",
@@ -362,7 +362,7 @@
                 "versionDefinitionFileUrl": "http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.5.0/HDP-2.6.5.0-292.xml",
                 "mpacks": [
                     {
-                        "name": "hcp150"
+                        "name": "hcp160"
                     },
                     {
                         "name": "hdpsearch"

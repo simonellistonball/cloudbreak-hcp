@@ -1,0 +1,6 @@
+kerberos:
+  key: RANDOM
+  password: RANDOM
+ambari:
+  adminPassword: RANDOM  
+credentialName: sball-se

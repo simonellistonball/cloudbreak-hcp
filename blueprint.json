@@ -5,7 +5,7 @@
         "properties_attributes" : { },
         "properties" : {
           "topology.classpath" : "/etc/hbase/conf:/etc/hadoop/conf",
-          "supervisor.slots.ports" : "[6700, 6701,6702,6703]"
+          "supervisor.slots.ports" : "[6700,6701,6702,6703]"
         }
       }
     },
@@ -59,16 +59,13 @@
         { "name" : "ACTIVITY_ANALYZER" },
         { "name" : "ACTIVITY_EXPLORER" },
         { "name" : "HST_SERVER" },
-        
         { "name" : "METRICS_MONITOR" },
         { "name" : "HST_AGENT" },
         { "name" : "METRON_CLIENT" },
-        
         { "name" : "RANGER_KMS_SERVER" },
-
-        { "name" : "ZEPPELIN_SERVER" }
-        
-
+        { "name" : "ZEPPELIN_SERVER" },
+        { "name" : "NIFI_CA" },
+        { "name" : "NIFI_REGISTRY_MASTER" }
       ],
       "configurations" : []
     },
@@ -192,6 +189,18 @@
         { "name": "DATANODE" },
         { "name": "NODEMANAGER" },
 
+        { "name": "METRICS_MONITOR" },
+        { "name": "HST_AGENT" },
+        { "name": "METRON_CLIENT" }
+      ],
+      "configurations": []
+    },
+    {
+      "name": "nifi",
+      "cardinality": "1+",
+      "components": [
+        { "name": "NIFI_MASTER" },
+        { "name": "ZOOKEEPER_CLIENT" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" }
