@@ -8,6 +8,8 @@ Run `mpack.sh` to register the required mpacks with cloudbreak, this may show a 
 
 Run `blueprint.sh` to upload the default blueprint for HCP.
 
+Run `recipes.sh` to upload the receipe scripts used.
+
 Run `python cluster.py --name NAME_YOUR_CLUSTER` to deploy an HCP cluster, then log in to cloudbreak and watch it go.
 
 ## Options

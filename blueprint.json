@@ -1,118 +1,224 @@
 {
-  "configurations" : [
+  "configurations": [
     {
-      "storm-site" : {
-        "properties_attributes" : { },
-        "properties" : {
-          "topology.classpath" : "/etc/hbase/conf:/etc/hadoop/conf",
-          "supervisor.slots.ports" : "[6700,6701,6702,6703]"
+      "storm-site": {
+        "properties_attributes": { },
+        "properties": {
+          "topology.classpath": "/etc/hbase/conf:/etc/hadoop/conf",
+          "supervisor.slots.ports": "[6700,6701,6702,6703,6704,6705,6706,6707]",
+          "topology.auto-credentials": "['org.apache.storm.security.auth.kerberos.AutoTGT']"
         }
       }
     },
     {
       "kafka-broker": {
         "properties": {
-          "super.users" : "User:kafka;User:metron"
+          "super.users": "User:kafka;User:metron"
+        }
+      }
+    },
+    {
+      "metron-rest-env": {
+        "properties": {
+          "metron_jdbc_driver": "org.mysql.Driver",
+          "metron_jdbc_url":"jdbc:mysql:%HOSTGROUP::ambari%/mysql",
+          "metron_jdbc_username":"metron",
+          "metron_jdbc_password":"metron",
+          "metron_jdbc_platform":"mysql",
+          "metron_jdbc_client_path": "/opt/jdbc-drivers/mysql-connector-java.jar"
+        }
+      }
+    },
+    {
+      "metron-env": {
+        "properties": {
+          "storm_rest_addr": "",
+          "zeppelin_server_url": ""
+        }
+      }
+    },
+    {
+      "metron-indexing-env": {
+          "properties_attributes": {},
+          "properties": {
+              "ra_indexing_writer": "Solr"
+          }
+      }
+    },
+    {
+      "metron-enrichment-env": {
+          "properties_attributes": {},
+          "properties": {
+            "enrichment_topology": "Unified"
+          }
+      }
+    },
+    { 
+      "nifi-ambari-config": {
+        "properties": {
+          "nifi.security.encrypt.configuration.password": "{{{ nifi.security.encrypt.configuration.password }}}",
+          "nifi.max_mem": "1g"
+        }
+      }
+    },
+    {
+      "nifi-properties": {
+        "properties": {
+          "nifi.sensitive.props.key": "{{{ nifi.sensitive.props.key }}}",
+          "nifi.security.identity.mapping.pattern.kerb": "^(.*?)@(.*?)$",
+          "nifi.security.identity.mapping.value.kerb": "$1"
+        }
+      }
+    },
+    {
+      "nifi-ambari-ssl-config": {
+        "properties": {
+          "nifi.toolkit.tls.token": "{{{ nifi.toolkit.tls.token }}}",
+          "nifi.node.ssl.isenabled": "true",
+          "nifi.toolkit.dn.prefix": "CN=",
+          "nifi.toolkit.dn.suffix": ", OU=NIFI"
+        }
+      }
+    },
+    {
+      "nifi-registry-ambari-config": {
+        "properties": {
+          "nifi.registry.security.encrypt.configuration.password": "{{{ nifi.registry.security.encrypt.configuration.password }}}"
+        }
+      }
+    },
+    {
+      "nifi-registry-properties": {
+        "properties": {
+          "nifi.registry.sensitive.props.key": "{{{ nifi.registry.sensitive.props.key }}}",
+          "nifi.registry.security.identity.mapping.pattern.kerb": "^(.*?)@(.*?)$",
+          "nifi.registry.security.identity.mapping.value.kerb": "$1"
+        }
+      }
+    },
+    {
+      "nifi-registry-ambari-ssl-config": {
+        "properties": {
+          "nifi.registry.ssl.isenabled": "true",
+          "nifi.registry.toolkit.dn.prefix": "CN=",
+          "nifi.registry.toolkit.dn.suffix": ", OU=NIFI"
+        }
+      }
+    },
+    {
+      "kms-properties": {
+        "properties": {
+          "KMS_MASTER_KEY_PASSWD": "{{{ ranger.kms.password }}}"
+        }
+      }
+    },
+    { 
+      "kerberos-env": {
+        "properties_attributes": {},
+        "properties": {
+          "kdc_create_attributes": "+allow_renewable"
         }
       }
     }
   ],
-  "host_groups" : [
+  "host_groups": [
     {
-      "name" : "metron",
-      "cardinality" : "1",
+      "name": "metron",
+      "cardinality": "1",
       "components": [
-        { "name" : "METRON_REST" },
-        { "name" : "METRON_ALERTS_UI" },
-        { "name" : "METRON_MANAGEMENT_UI" },
+        { "name": "METRON_REST" },
+        { "name": "METRON_ALERTS_UI" },
+        { "name": "METRON_MANAGEMENT_UI" },
 
-        { "name" : "METRON_PARSERS" },
-        { "name" : "METRON_ENRICHMENT_MASTER" },
-        { "name" : "METRON_PROFILER" },
-        { "name" : "METRON_INDEXING" },
+        { "name": "METRON_PARSERS" },
+        { "name": "METRON_ENRICHMENT_MASTER" },
+        { "name": "METRON_PROFILER" },
+        { "name": "METRON_INDEXING" },
 
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" },
 
-        { "name" : "SPARK2_CLIENT" },
-        { "name" : "SPARK_CLIENT" },
-        { "name" : "YARN_CLIENT" },
-        { "name" : "HDFS_CLIENT" },
-        { "name" : "HBASE_CLIENT" },
-        { "name" : "HIVE_CLIENT" },
-        { "name" : "ZOOKEEPER_CLIENT" },
-        { "name" : "MAPREDUCE2_CLIENT" }
+        { "name": "SPARK2_CLIENT" },
+        { "name": "SPARK_CLIENT" },
+        { "name": "YARN_CLIENT" },
+        { "name": "HDFS_CLIENT" },
+        { "name": "HBASE_CLIENT" },
+        { "name": "HIVE_CLIENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
+        { "name": "MAPREDUCE2_CLIENT" },
+
+        { "name": "KAFKA_BROKER" },
+        { "name": "SUPERVISOR" }
+        
       ],
-      "configurations" : []
+      "configurations": []
     },
     {
-      "name" : "ambari",
-      "cardinality" : "1",
+      "name": "ambari",
+      "cardinality": "1",
       "components": [
-        { "name" : "KNOX_GATEWAY" },
-        { "name" : "AMBARI_SERVER"},
-        { "name" : "INFRA_SOLR"},
-        { "name" : "INFRA_SOLR_CLIENT" },
-        { "name" : "METRICS_COLLECTOR"},
-        { "name" : "METRICS_GRAFANA"},
-        { "name" : "ACTIVITY_ANALYZER" },
-        { "name" : "ACTIVITY_EXPLORER" },
-        { "name" : "HST_SERVER" },
-        { "name" : "METRICS_MONITOR" },
-        { "name" : "HST_AGENT" },
-        { "name" : "METRON_CLIENT" },
-        { "name" : "RANGER_KMS_SERVER" },
-        { "name" : "ZEPPELIN_SERVER" },
-        { "name" : "NIFI_CA" },
-        { "name" : "NIFI_REGISTRY_MASTER" }
+        { "name": "KNOX_GATEWAY" },
+        { "name": "AMBARI_SERVER"},
+        { "name": "INFRA_SOLR"},
+        { "name": "INFRA_SOLR_CLIENT" },
+        { "name": "METRICS_COLLECTOR"},
+        { "name": "METRICS_GRAFANA"},
+        { "name": "ACTIVITY_ANALYZER" },
+        { "name": "ACTIVITY_EXPLORER" },
+        { "name": "HST_SERVER" },
+        { "name": "METRICS_MONITOR" },
+        { "name": "HST_AGENT" },
+        { "name": "METRON_CLIENT" },
+        { "name": "ZEPPELIN_MASTER" },
+        { "name": "NIFI_CA" },
+        { "name": "NIFI_REGISTRY_MASTER" }
       ],
-      "configurations" : []
+      "configurations": []
     },
     {
-      "name" : "master1",
-      "cardinality" : "1",
+      "name": "master1",
+      "cardinality": "1",
       "components": [
-        { "name" : "NAMENODE" },
-        { "name" : "JOURNALNODE" },
-        { "name" : "RESOURCEMANAGER" },
+        { "name": "NAMENODE" },
+        { "name": "JOURNALNODE" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" }
       ],
-      "configurations" : []
+      "configurations": []
     },
     {
-      "name" : "master2",
-      "cardinality" : "1",
+      "name": "master2",
+      "cardinality": "1",
       "components": [
-        { "name" : "SECONDARY_NAMENODE" },
-        { "name" : "JOURNALNODE" },
-        { "name" : "APP_TIMELINE_SERVER" },
-        { "name" : "SPARK_JOBHISTORYSERVER" },
-        { "name" : "SPARK2_JOBHISTORYSERVER" },
-        { "name" : "HISTORYSERVER" },
-        { "name" : "RESOURCEMANAGER" },
+        { "name": "SECONDARY_NAMENODE" },
+        { "name": "JOURNALNODE" },
+        { "name": "APP_TIMELINE_SERVER" },
+        { "name": "SPARK_JOBHISTORYSERVER" },
+        { "name": "SPARK2_JOBHISTORYSERVER" },
+        { "name": "HISTORYSERVER" },
+        { "name": "RESOURCEMANAGER" },
         
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" },
 
-        { "name" : "STORM_UI_SERVER" },
-        { "name" : "NIMBUS" },
-        { "name" : "DRPC_SERVER" }
+        { "name": "STORM_UI_SERVER" },
+        { "name": "NIMBUS" },
+        { "name": "DRPC_SERVER" }
       ],
-      "configurations" : []
+      "configurations": []
     },{
-      "name" : "master3",
-      "cardinality" : "1",
+      "name": "master3",
+      "cardinality": "1",
       "components": [
-        { "name" : "JOURNALNODE" },
-        { "name" : "HBASE_MASTER"},
-        { "name" : "HIVE_SERVER"},
-        { "name" : "WEBHCAT_SERVER"},
-        { "name" : "HIVE_METASTORE" },
-        { "name" : "HCAT" },
+        { "name": "JOURNALNODE" },
+        { "name": "HBASE_MASTER"},
+        { "name": "HIVE_SERVER"},
+        { "name": "WEBHCAT_SERVER"},
+        { "name": "HIVE_METASTORE" },
+        { "name": "HCAT" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" },
@@ -120,7 +226,7 @@
         { "name": "RANGER_USERSYNC" },
         { "name": "RANGER_ADMIN" }
       ],
-      "configurations" : []
+      "configurations": []
     },
     {
       "name": "zookeeper",
@@ -140,7 +246,9 @@
         { "name": "SOLR_SERVER" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
-        { "name": "METRON_CLIENT" }
+        { "name": "METRON_CLIENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
+        { "name": "HDFS_CLIENT" }
       ],
       "configurations": []
     },
@@ -151,6 +259,7 @@
         { "name": "KAFKA_BROKER" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
         { "name": "METRON_CLIENT" }
       ],
       "configurations": []
@@ -159,12 +268,11 @@
       "name": "streaming",
       "cardinality": "1+",
       "components": [
-        { "name" : "SUPERVISOR" },
-        { "name" : "HDFS_CLIENT" },
-        { "name" : "HBASE_CLIENT" },
-        { "name" : "HIVE_CLIENT" },
-        { "name" : "ZOOKEEPER_CLIENT" },
-        
+        { "name": "SUPERVISOR" },
+        { "name": "HDFS_CLIENT" },
+        { "name": "HBASE_CLIENT" },
+        { "name": "HIVE_CLIENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
         { "name": "METRON_CLIENT" }
@@ -208,38 +316,38 @@
       "configurations": []
     }
   ],
-  "settings" : [
+  "settings": [
     {
-      "recovery_settings" : [
+      "recovery_settings": [
         {
-          "recovery_enabled" : "true"
+          "recovery_enabled": "true"
         }
       ]
     },
     {
-      "service_settings" : [
+      "service_settings": [
         {
-          "name" : "HIVE",
-          "credential_store_enabled" : "true"
+          "name": "HIVE",
+          "credential_store_enabled": "true"
         },
         {
-          "recovery_enabled" : "true",
-          "name" : "AMBARI_METRICS"
+          "recovery_enabled": "true",
+          "name": "AMBARI_METRICS"
         }
       ]
     },
     {
-      "component_settings" : [
+      "component_settings": [
         {
-          "recovery_enabled" : "true",
-          "name" : "METRICS_COLLECTOR"
+          "recovery_enabled": "true",
+          "name": "METRICS_COLLECTOR"
         }
       ]
     }
   ],
-  "Blueprints" : {
+  "Blueprints": {
     "blueprint_name": "HCP",
-    "stack_name" : "HDP",
-    "stack_version" : "2.6"
+    "stack_name": "HDP",
+    "stack_version": "2.6"
   }
 }

@@ -4,3 +4,27 @@ kerberos:
 ambari:
   adminPassword: RANDOM  
 credentialName: sball-se
+
+nifi:
+  security:
+    encrypt:
+      configuration:
+        password: RANDOM
+  sensitive:
+    props:
+      key: RANDOM
+  toolkit:
+    tls:
+      token: RANDOM
+  registry:
+    security:
+      encrypt:
+        configuration:
+          password: RANDOM
+    sensitive:
+      props:
+        key: RANDOM
+
+ranger:
+  kms:
+    password: RANDOM

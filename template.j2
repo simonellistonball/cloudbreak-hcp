@@ -1,4 +1,13 @@
 {
+    "inputs": {
+        
+        "nifi.security.encrypt.configuration.password": "{{ nifi.security.encrypt.configuration.password }}",
+        "nifi.sensitive.props.key": "{{ nifi.sensitive.props.key }}",
+        "nifi.toolkit.tls.token": "{{ nifi.toolkit.tls.token }}",
+        "nifi.registry.security.encrypt.configuration.password": "{{ nifi.registry.security.encrypt.configuration.password }}",
+        "nifi.registry.sensitive.props.key": "{{ nifi.registry.sensitive.props.key }}",
+        "ranger.kms.password": "{{ ranger.kms.password }}"
+    },
     "general": {
         "name": "HCP",
         "credentialName": "{{ credentialName }}"
@@ -133,7 +142,11 @@
                     }
                 ]
             },
-            "recipeNames": [],
+            "recipeNames": [
+                "metron-db-setup",
+                "mysql-client",
+                "requests-upgrade"
+            ],
             "recoveryMode": "MANUAL"
         },
         {
@@ -186,7 +199,9 @@
                     }
                 ]
             },
-            "recipeNames": [],
+            "recipeNames": [
+                "nodejs"
+            ],
             "recoveryMode": "MANUAL"
         },
         {
@@ -321,6 +336,37 @@
             },
             "recipeNames": [],
             "recoveryMode": "MANUAL"
+        },
+        {
+            "nodeCount": 1,
+            "group": "nifi",
+            "type": "CORE",
+            "parameters": {},
+            "template": {
+                "volumeCount": 1,
+                "volumeSize": 100,
+                "parameters": {
+                    "encrypted": false
+                },
+                "volumeType": "standard",
+                "instanceType": "m5.xlarge"
+            },
+            "securityGroup": {
+                "securityRules": [
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "22",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "514",
+                        "protocol": "udp"
+                    }
+                ]
+            },
+            "recipeNames": [],
+            "recoveryMode": "MANUAL"
         }
     ],
     "stackAuthentication": {
@@ -332,7 +378,7 @@
     },
     "imageSettings": {
         "imageCatalog": "cloudbreak-default",
-        "imageId": "02510145-0943-42a3-7271-8d19e5f87917"
+        "imageId": "086a2119-4cc2-4655-511b-0a528f7406c0"
     },
     "cluster": {
         "emailNeeded": false,
@@ -340,6 +386,19 @@
         "ambari": {
             "blueprintName": "HCP",
             "enableSecurity": true,
+            "gateway": {
+                "enableGateway": true,
+                "topologies": [
+                {
+                    "topologyName": "dp-proxy",
+                    "exposedServices": [
+                        "AMBARI",
+                        "ALL"
+                    ]
+                }
+                ],
+                "ssoType": "NONE"
+            },
             "userName": "admin",
             "password": "{{ ambari.adminPassword }}",
             "kerberos": {
@@ -373,8 +432,8 @@
                 ]
             },
             "ambariRepoDetailsJson": {
-                "version": "2.6.2.0",
-                "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.2.0"
+                "version": "2.6.2.2",
+                "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.2.2"
             },
             "blueprintInputs": []
         }
