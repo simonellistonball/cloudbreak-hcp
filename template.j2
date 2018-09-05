@@ -196,11 +196,29 @@
                         "subnet": "0.0.0.0/0",
                         "ports": "22",
                         "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "4201",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "4200",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "8082",
+                        "protocol": "tcp"
                     }
+
                 ]
             },
             "recipeNames": [
-                "nodejs"
+                "nodejs",
+                "requests-upgrade",
+                "mysql-client"
             ],
             "recoveryMode": "MANUAL"
         },
@@ -362,6 +380,11 @@
                         "subnet": "0.0.0.0/0",
                         "ports": "514",
                         "protocol": "udp"
+                    }, 
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "9091",
+                        "protocol": "tcp"
                     }
                 ]
             },
