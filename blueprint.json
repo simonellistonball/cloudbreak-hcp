@@ -165,7 +165,6 @@
         { "name": "METRICS_COLLECTOR"},
         { "name": "METRICS_GRAFANA"},
         { "name": "ACTIVITY_ANALYZER" },
-        { "name": "ACTIVITY_EXPLORER" },
         { "name": "HST_SERVER" },
         { "name": "METRICS_MONITOR" },
         { "name": "HST_AGENT" },
