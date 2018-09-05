@@ -6,7 +6,7 @@ service mysqld start
 
 cat <<-EOF | mysql -u root
 CREATE DATABASE IF NOT EXISTS metron;
-GRANT ALL PRIVILEGES ON metron.* TO 'metron'@'' identified by 'metron';
+GRANT ALL PRIVILEGES ON metron.* TO 'metron'@'%' identified by 'metron';
 
 use metron;
 
@@ -25,8 +25,8 @@ create unique index ix_auth_username on authorities (username,authority);
 
 insert into users (username, password, enabled) values ('admin', 'admin',1);
 insert into authorities (username, authority) values ('admin', 'ROLE_USER');
+insert into authorities (username, authority) values ('admin', 'ROLE_ADMIN');
 
 FLUSH PRIVILEGES;
 
 EOF
-
