@@ -1,0 +1,2 @@
+sudo kadmin.local -q "modprinc -maxlife 1days -maxrenewlife 7days +allow_renewable krbtgt/US-WEST-2.COMPUTE.INTERNAL@US-WEST-2.COMPUTE.INTERNAL"
+sudo kadmin.local -q "modprinc -maxlife 1days -maxrenewlife 7days +allow_renewable metron@US-WEST-2.COMPUTE.INTERNAL"

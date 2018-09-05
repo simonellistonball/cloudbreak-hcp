@@ -11,7 +11,7 @@ import subprocess
 from datetime import datetime
 
 def random_password():
-  return ''.join(random.choice("^_-" + string.ascii_letters + string.digits) for _ in range(16))
+  return ''.join(random.choice("_-" + string.ascii_letters + string.digits) for _ in range(16))
 
 def update(orig_dict, new_dict):
     for key, val in orig_dict.iteritems():
