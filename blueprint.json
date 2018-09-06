@@ -126,7 +126,7 @@
       "kerberos-env": {
         "properties_attributes": {},
         "properties": {
-          "kdc_create_attributes": "+allow_renewable max_renew_life=7d"
+          "kdc_create_attributes": "+allow_renewable -maxrenewlife 7d"
         }
       }
     }
