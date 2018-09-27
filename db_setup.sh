@@ -7,6 +7,7 @@ service mysqld start
 cat <<-EOF | mysql -u root
 CREATE DATABASE IF NOT EXISTS metron;
 GRANT ALL PRIVILEGES ON metron.* TO 'metron'@'%' identified by 'metron';
+GRANT ALL PRIVILEGES ON metron.* TO 'metron'@'localhost' identified by 'metron';
 
 use metron;
 
