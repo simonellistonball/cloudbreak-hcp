@@ -108,6 +108,8 @@
         { "name": "METRON_PROFILER" },
         { "name": "METRON_INDEXING" },
 
+        { "name": "NIFI_MASTER" },
+        
         { "name": "SPARK2_CLIENT" },
         { "name": "SPARK_CLIENT" },
         { "name": "YARN_CLIENT" },
