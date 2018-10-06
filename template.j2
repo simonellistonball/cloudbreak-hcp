@@ -1,6 +1,5 @@
 {
     "inputs": {
-        
         "nifi.security.encrypt.configuration.password": "{{ nifi.security.encrypt.configuration.password }}",
         "nifi.sensitive.props.key": "{{ nifi.sensitive.props.key }}",
         "nifi.toolkit.tls.token": "{{ nifi.toolkit.tls.token }}",
@@ -406,6 +405,7 @@
     "cluster": {
         "emailNeeded": false,
         "rdsConfigNames": [],
+        "configStrategy": "ALWAYS_APPLY",
         "ambari": {
             "blueprintName": "HCP",
             "enableSecurity": true,
