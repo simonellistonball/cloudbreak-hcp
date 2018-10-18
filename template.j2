@@ -1,6 +1,5 @@
 {
     "inputs": {
-        
         "nifi.security.encrypt.configuration.password": "{{ nifi.security.encrypt.configuration.password }}",
         "nifi.sensitive.props.key": "{{ nifi.sensitive.props.key }}",
         "nifi.toolkit.tls.token": "{{ nifi.toolkit.tls.token }}",
@@ -143,8 +142,6 @@
                 ]
             },
             "recipeNames": [
-                "metron-db-setup",
-                "mysql-client",
                 "requests-upgrade",
                 "kdc-fix"
             ],
@@ -217,6 +214,7 @@
                 ]
             },
             "recipeNames": [
+                "metron-db-setup",
                 "nodejs",
                 "requests-upgrade",
                 "mysql-client"
@@ -407,6 +405,7 @@
     "cluster": {
         "emailNeeded": false,
         "rdsConfigNames": [],
+        "configStrategy": "ALWAYS_APPLY",
         "ambari": {
             "blueprintName": "HCP",
             "enableSecurity": true,

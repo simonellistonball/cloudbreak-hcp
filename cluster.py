@@ -31,11 +31,15 @@ def update(orig_dict, new_dict):
 parser = argparse.ArgumentParser(description='Create a HCP cluster in Cloudbreak')
 parser.add_argument('--name', dest='name', type=str,
                    help='Name for the cluster')
+parser.add_argument('--compact', dest='compact', action='store_true',
+                   help='Use compact version')
 args = parser.parse_args()
 if args.name == None: 
   print("Must specify cluster name")
   sys.exit(1)
 
+suffix = '-compact' if args.compact else ''
+  
 env = Environment(loader=FileSystemLoader('.'))
 
 config = {
@@ -48,7 +52,7 @@ with open("config.yaml") as cf:
   update(cd, config)
 
 with NamedTemporaryFile(delete=False) as tmp:
-  template = env.get_template("template.j2")
+  template = env.get_template("template" + suffix + ".j2")
   tmp.write(template.render(config))
 
 template_file = tmp.name
@@ -57,9 +61,9 @@ try:
   subprocess.check_call(["cb cluster create --cli-input-json {template_file} --name {cluster_name}".format(template_file = tmp.name, cluster_name = args.name)], shell=True)
   print(yaml.dump(config, default_flow_style=False))
   now = datetime.now().strftime("%Y%m%d%H%M%S")
-  with open("config-{}.yaml".format(now), 'w') as fout:
+  with open("config-" + suffix + "{}.yaml".format(now), 'w') as fout:
     fout.write(yaml.dump(config, default_flow_style=False))
-  with open("template-{}.yaml".format(now), 'w') as fout:
+  with open("template-" + suffix + "{}.yaml".format(now), 'w') as fout:
     fout.write(template.render(config))
 
 except: 

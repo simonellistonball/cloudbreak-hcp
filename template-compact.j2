@@ -1,0 +1,172 @@
+{
+    "inputs": {
+        "nifi.security.encrypt.configuration.password": "{{ nifi.security.encrypt.configuration.password }}",
+        "nifi.sensitive.props.key": "{{ nifi.sensitive.props.key }}",
+        "nifi.toolkit.tls.token": "{{ nifi.toolkit.tls.token }}",
+        "nifi.registry.security.encrypt.configuration.password": "{{ nifi.registry.security.encrypt.configuration.password }}",
+        "nifi.registry.sensitive.props.key": "{{ nifi.registry.sensitive.props.key }}",
+        "ranger.kms.password": "{{ ranger.kms.password }}"
+    },
+    "general": {
+        "name": "HCP - compact",
+        "credentialName": "{{ credentialName }}"
+    },
+    "placement": {
+        "availabilityZone": "{{ aws.zone|default('us-west-2a') }}",
+        "region": "{{ aws.region|default('us-west-2') }}"
+    },
+    "parameters": {},
+    "customDomain": {
+        "clusterNameAsSubdomain": false,
+        "hostgroupNameAsHostname": false
+    },
+    "tags": {
+        "userDefinedTags": {}
+    },
+    "instanceGroups": [
+        {
+            "nodeCount": 1,
+            "group": "master",
+            "type": "GATEWAY",
+            "parameters": {},
+            "template": {
+                "volumeCount": 1,
+                "volumeSize": 100,
+                "parameters": {
+                    "encrypted": false
+                },
+                "volumeType": "standard",
+                "instanceType": "m5.2xlarge"
+            },
+            "securityGroup": {
+                "securityRules": [
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "22",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "443",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "8443",
+                        "protocol": "tcp"
+                    },
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "9443",
+                        "protocol": "tcp"
+                    }
+                ]
+            },
+            "recipeNames": [
+                "requests-upgrade",
+                "kdc-fix",
+                "metron-db-setup",
+                "nodejs",
+                "mysql-client"
+            ],
+            "recoveryMode": "MANUAL"
+        },
+        {
+            "nodeCount": 1,
+            "group": "worker",
+            "type": "CORE",
+            "parameters": {},
+            "template": {
+                "volumeCount": 4,
+                "volumeSize": 1000,
+                "parameters": {
+                    "encrypted": false,
+                    "spotPrice": "0.239"
+                },
+                "volumeType": "standard",
+                "instanceType": "m5.2xlarge"
+            },
+            "securityGroup": {
+                "securityRules": [
+                    {
+                        "subnet": "0.0.0.0/0",
+                        "ports": "22",
+                        "protocol": "tcp"
+                    }
+                ]
+            },
+            "recipeNames": [],
+            "recoveryMode": "MANUAL"
+        }
+    ],
+    "stackAuthentication": {
+        "publicKeyId": "sball-metron"
+    },
+    "network": {
+        "subnetCIDR": "10.0.0.0/16",
+        "parameters": {}
+    },
+    "imageSettings": {
+        "imageCatalog": "cloudbreak-default",
+        "imageId": "086a2119-4cc2-4655-511b-0a528f7406c0"
+    },
+    "cluster": {
+        "emailNeeded": false,
+        "rdsConfigNames": [],
+        "configStrategy": "ALWAYS_APPLY",
+        "ambari": {
+            "blueprintName": "HCP - Compact",
+            "enableSecurity": true,
+            "gateway": {
+                "enableGateway": true,
+                "topologies": [
+                {
+                    "topologyName": "dp-proxy",
+                    "exposedServices": [
+                        "AMBARI",
+                        "ALL"
+                    ]
+                }
+                ],
+                "ssoType": "NONE"
+            },
+            "userName": "admin",
+            "password": "{{ ambari.adminPassword }}",
+            "kerberos": {
+                "admin": "admin",
+                "tcpAllowed": false,
+                "masterKey": "{{ kerberos.key }}",
+                "password": "{{ kerberos.password }}"
+            },
+            "ambariStackDetails": {
+                "stack": "HDP-2.6",
+                "version": "2.6.5.0",
+                "os": "redhat6",
+                "stackRepoId": "HDP-2.6",
+                "stackBaseURL": "http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.5.0",
+                "utilsRepoId": "HDP-UTILS-1.1.0.22",
+                "utilsBaseURL": "http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos6",
+                "enableGplRepo": true,
+                "verify": true,
+                "repositoryVersion": "2.6.5.0-292",
+                "versionDefinitionFileUrl": "http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.5.0/HDP-2.6.5.0-292.xml",
+                "mpacks": [
+                    {
+                        "name": "hcp160"
+                    },
+                    {
+                        "name": "hdpsearch"
+                    },
+                    {
+                        "name": "hdf312"
+                    }
+                ]
+            },
+            "ambariRepoDetailsJson": {
+                "version": "2.6.2.2",
+                "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.2.2"
+            },
+            "blueprintInputs": []
+        }
+    }
+}
