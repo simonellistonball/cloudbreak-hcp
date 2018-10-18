@@ -32,8 +32,6 @@
       {
           "metron-env": {
               "properties": {
-                  "storm_rest_addr": "",
-                  "zeppelin_server_url": ""
               }
           }
       },
@@ -211,6 +209,9 @@
               },
               {
                   "name": "METRON_INDEXING"
+              },
+              {
+                  "name": "METRON_PCAP"
               },
               {
                   "name": "NIFI_MASTER"
