@@ -32,8 +32,6 @@
       {
           "metron-env": {
               "properties": {
-                  "storm_rest_addr": "",
-                  "zeppelin_server_url": ""
               }
           }
       },
