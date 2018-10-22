@@ -18,10 +18,14 @@ aws:
   region: us-east-2
 
 also below values needs to be chaged based on the cloud provider 
-credentialName: cloudbreak-credential
-hcpVersion: hcp version to be installed
-cloudProvider: Cloud provider values can be (aws, ycloud, openstack)
-yarnQueue: yarn queue if the cloud provider is 'ycloud' else neglect
+
+`credentialName: cloudbreak-credential`
+
+`hcpVersion: hcp version to be installed`
+
+`cloudProvider: Cloud provider values can be (aws, ycloud, openstack)`
+
+`yarnQueue: yarn queue if the cloud provider is 'ycloud' else neglect`
 
 to the config yaml.
 
