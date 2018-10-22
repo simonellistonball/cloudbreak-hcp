@@ -1,5 +1,3 @@
-# NOTE THIS IS WIP AND PROBABLY DOESN'T WORK YET
-
 # HCP Cloudbreak Launcher
 
 First setup cloudbreak and install the cloudbreak CLI on your machine, don't forget to configure it to your cloudbreak deployer.
@@ -19,10 +17,16 @@ aws:
   zone: us-east-2a
   region: us-east-2
 
+also below values needs to be chaged based on the cloud provider 
+credentialName: cloudbreak-credential
+hcpVersion: hcp version to be installed
+cloudProvider: Cloud provider values can be (aws, ycloud, openstack)
+yarnQueue: yarn queue if the cloud provider is 'ycloud' else neglect
+
 to the config yaml.
 
 You can force passwords and kerberos keys in config.yaml file. Any key set to RANDOM will get a 16 digit generated complex password.
 
 ## Template changes (advanced)
 
-template.j2 is processed as a jinja template to create the cloudbreak template for each run. The temporary template actually used is deleted. You can change things like spot price, and instance types in the template.j2 file if you know what you're doing with Cloudbreak. 
+template-xxx.j2 (aws or ycloud based on the cloud provider selected) is processed as a jinja template to create the cloudbreak template for each run. The temporary template actually used is deleted. You can change things like spot price, and instance types, mpack version to be installed in the template-xxx.j2 file if you know what you're doing with Cloudbreak. 
