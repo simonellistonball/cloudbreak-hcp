@@ -4,6 +4,11 @@ kerberos:
 ambari:
   adminPassword: RANDOM  
 credentialName: sball-se
+hcpVersion: 1.7
+# Cloud provider values can be (aws, ycloud, openstack)
+cloudProvider: aws
+# yarn queue if the cloud provider is 'ycloud' else neglect
+yarnQueue: HCS-integration-tests
 
 nifi:
   security:
