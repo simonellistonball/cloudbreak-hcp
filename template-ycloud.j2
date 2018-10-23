@@ -1,0 +1,296 @@
+{
+  "inputs": {
+    "nifi.security.encrypt.configuration.password": "{{ nifi.security.encrypt.configuration.password }}",
+    "nifi.sensitive.props.key": "{{ nifi.sensitive.props.key }}",
+    "nifi.toolkit.tls.token": "{{ nifi.toolkit.tls.token }}",
+    "nifi.registry.security.encrypt.configuration.password": "{{ nifi.registry.security.encrypt.configuration.password }}",
+    "nifi.registry.sensitive.props.key": "{{ nifi.registry.sensitive.props.key }}",
+    "ranger.kms.password": "{{ ranger.kms.password }}"
+  },
+  "general": {
+    "name": "HCP {{hcpVersion}}",
+    "credentialName": "{{ credentialName }}"
+  },
+  "placement": {
+    "availabilityZone": "{{ aws.zone|default('us-west-2a') }}",
+    "region": "{{ aws.region|default('us-west-2') }}"
+  },
+  "parameters": {
+      "yarnQueue": "{{ yarnQueue }}",
+      "lifeTime": -1
+  },
+  "customDomain": {
+    "clusterNameAsSubdomain": false,
+    "hostgroupNameAsHostname": false
+  },
+  "tags": {
+    "userDefinedTags": {}
+  },
+  "instanceGroups": [
+    {
+      "nodeCount": 1,
+      "group": "master2",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "master1",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+       ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "solr",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "ambari",
+      "type": "GATEWAY",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+        "requests-upgrade",
+        "kdc-fix"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "worker",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+       ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "metron",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+        "nodejs",
+        "requests-upgrade",
+        "metron-db-centos-setup",
+        "mysql-client"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "hbase",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "kafka",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+       ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "streaming",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+          "requests-upgrade"
+       ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "zookeeper",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "master3",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    },
+    {
+      "nodeCount": 1,
+      "group": "nifi",
+      "type": "CORE",
+      "parameters": {},
+      "template": {
+        "customInstanceType": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "recipeNames": [
+         "requests-upgrade"
+      ],
+      "recoveryMode": "MANUAL"
+    }
+  ],
+  "stackAuthentication": {
+    "publicKey": "ssh-rsa ....."
+  },
+  "network": {
+    "subnetCIDR": "10.0.0.0/16",
+    "parameters": {}
+  },
+  "imageSettings": {
+    "imageCatalog": "cloudbreak-default",
+    "imageId": "34cc7501-d312-4e0f-bbb4-612d2c43ee98"
+  },
+  "cluster": {
+    "emailNeeded": false,
+    "rdsConfigNames": [],
+    "ambari": {
+      "blueprintName": "HCP",
+      "enableSecurity": true,
+      "gateway": {
+        "enableGateway": true,
+        "topologies": [
+          {
+            "topologyName": "dp-proxy",
+            "exposedServices": [
+              "AMBARI",
+              "ALL"
+            ]
+          }
+        ],
+        "ssoType": "NONE"
+      },
+      "userName": "admin",
+      "password": "{{ ambari.adminPassword }}",
+      "kerberos": {
+        "admin": "admin",
+        "tcpAllowed": false,
+        "masterKey": "{{ kerberos.key }}",
+        "password": "{{ kerberos.password }}"
+      },
+      "ambariStackDetails": {
+        "stack": "HDP-2.6",
+        "version": "2.6.5.0",
+        "os": "redhat6",
+        "stackRepoId": "HDP-2.6",
+        "stackBaseURL": "http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0",
+        "utilsRepoId": "HDP-UTILS-1.1.0.22",
+        "utilsBaseURL": "http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7",
+        "enableGplRepo": true,
+        "verify": true,
+        "repositoryVersion": "2.6.5.0-292",
+        "versionDefinitionFileUrl": "http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0/HDP-2.6.5.0-292.xml",
+        "mpacks": [
+          {
+            "name": "hcp170"
+          },
+          {
+            "name": "hdpsearch"
+          },
+          {
+            "name": "hdf312"
+          }
+        ]
+      },
+      "ambariRepoDetailsJson": {
+        "version": "2.6.2.2",
+        "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.6.2.2"
+      },
+      "blueprintInputs": []
+    }
+  }
+}

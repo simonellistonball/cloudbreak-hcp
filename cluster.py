@@ -46,18 +46,27 @@ config = {
   'aws': {}
 }
 
-with open("config.yaml") as cf: 
+with open("config.yaml") as cf:
   yamls = cf.read()
   cd = dict(yaml.load(yamls))
   update(cd, config)
 
+cloud = config.get('cloudProvider')
+if (cloud.lower() == 'aws'):
+    cloud_provider = '-aws'
+elif (cloud.lower() == 'ycloud'):
+    cloud_provider = '-ycloud'
+else:
+    print("Cloud provider 'cloudProvider' supported config values are 'aws' or 'ycloud' ")
+    sys.exit(1)
+
 with NamedTemporaryFile(delete=False) as tmp:
-  template = env.get_template("template" + suffix + ".j2")
+  template = env.get_template("template" + suffix + cloud_provider +".j2")
   tmp.write(template.render(config))
 
 template_file = tmp.name
 
-try: 
+try:
   subprocess.check_call(["cb cluster create --cli-input-json {template_file} --name {cluster_name}".format(template_file = tmp.name, cluster_name = args.name)], shell=True)
   print(yaml.dump(config, default_flow_style=False))
   now = datetime.now().strftime("%Y%m%d%H%M%S")
