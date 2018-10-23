@@ -211,6 +211,9 @@
                   "name": "METRON_INDEXING"
               },
               {
+                  "name": "METRON_PCAP"
+              },
+              {
                   "name": "NIFI_MASTER"
               },
               {
